@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<head>
+    <meta charset="UTF-8">
+    <title>Add/Edit User</title>
+</head>
+<body>
+<div class="container">
+    <h2 th:text="${user.id == null ? 'Add New User' : 'Edit User'}"></h2>
+
+    <form th:action="@{${user.id == null} ? '/admin/users/add' : '/admin/users/edit/' + ${user.id}}" 
+          th:object="${user}" method="post">
+        <div class="mb-3">
+            <label>Username</label>
+            <input type="text" th:field="*{username}" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="text" th:field="*{password}" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label>Role</label>
+            <select th:field="*{role}" class="form-select">
+                <option value="ADMIN">ADMIN</option>
+                <option value="TECHNICIAN">TECHNICIAN</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Status</label>
+            <select th:field="*{enabled}" class="form-select">
+                <option value="true">Enabled</option>
+                <option value="false">Disabled</option>
+            </select>
+        </div>
+        <button class="btn btn-success">Submit</button>
+        <a th:href="@{/admin/users}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

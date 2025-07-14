@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<head>
+    <meta charset="UTF-8">
+    <title>Tickets</title>
+</head>
+<body>
+<div class="container">
+    <h2>Ticket List</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Assigned To</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ticket : ${tickets}">
+                <td th:text="${ticket.title}">Title</td>
+                <td>
+                    <span th:text="${ticket.priority}"
+                          th:classappend="'badge rounded-pill ' + 
+                              (ticket.priority == 'URGENT' ? 'bg-danger' : 
+                              ticket.priority == 'HIGH' ? 'bg-warning text-dark' :
+                              ticket.priority == 'MEDIUM' ? 'bg-info text-dark' : 'bg-secondary')">
+                    </span>
+                </td>
+                <td th:text="${ticket.status}">Status</td>
+                <td th:text="${ticket.assignedTo != null ? ticket.assignedTo.username : 'Unassigned'}">Technician</td>
+                <td>
+                    <a th:href="@{/tickets/view/{id}(id=${ticket.id})}" class="btn btn-sm btn-primary">View</a>
+
+                    <span th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a th:href="@{/tickets/edit/{id}(id=${ticket.id})}" class="btn btn-sm btn-warning">Edit</a>
+                        <a th:href="@{/tickets/delete/{id}(id=${ticket.id})}" class="btn btn-sm btn-danger"
+                           onclick="return confirm('Are you sure?')">Delete</a>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Detail</title>
+</head>
+<body>
+<div class="container">
+    <h2 th:text="${ticket.title}">Ticket</h2>
+
+    <p><strong>Description:</strong> <span th:text="${ticket.description}"></span></p>
+    <p><strong>Priority:</strong> <span th:text="${ticket.priority}"></span></p>
+    <p><strong>Status:</strong> <span th:text="${ticket.status}"></span></p>
+    <p><strong>Assigned To:</strong> <span th:text="${ticket.assignedTo.username}"></span></p>
+
+    <div th:if="${#authorization.expression('hasRole(''TECHNICIAN'')')}">
+        <form th:action="@{/tickets/update-status/{id}(id=${ticket.id})}" method="post">
+            <label>Update Status:</label>
+            <select name="status" class="form-select mb-2">
+                <option>OPEN</option>
+                <option>IN_PROGRESS</option>
+                <option>CLOSED</option>
+            </select>
+            <button class="btn btn-primary btn-sm">Update</button>
+        </form>
+    </div>
+
+    <a th:href="@{/tickets/my}" class="btn btn-secondary mt-2">Back</a>
+</div>
+</body>
+</html>

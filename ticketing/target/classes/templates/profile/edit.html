@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+</head>
+<body>
+<div class="container">
+    <h2>Edit My Profile</h2>
+
+    <form th:action="@{/profile/edit}" th:object="${user}" method="post">
+        <div class="mb-3">
+            <label>Username</label>
+            <input type="text" th:field="*{username}" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password" th:field="*{password}" class="form-control" required />
+        </div>
+        <button class="btn btn-success">Update</button>
+        <a th:href="@{/profile}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
